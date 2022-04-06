@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import "./About.scss";
-import { urlFor } from "../../client";
-import axios from "axios";
+import { urlFor,client } from "../../client";
+import { AppWrap } from "../../wrapper";
 
 const About = () => {
   const [abouts, setAbouts] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(
-        "https://qubaawzt.api.sanity.io/v2022-04-04/data/query/production?query=*%5B_type%20%3D%3D%20%22abouts%22%5D%0A"
-      )
-      .then((res) => setAbouts(res.data.result))
-      .catch((err) => console.log(err));
+    const query = '*[_type == "abouts"]';
+
+    client.fetch(query).then((data) => {
+      setAbouts(data);
+    });
   }, []);
 
   return (
@@ -22,7 +21,7 @@ const About = () => {
         I Know That <span>Good Dev</span>
         <br /> Means <span>Good Business</span>
       </h2>
-      <div className="app__profile">
+      <div className="app__profiles">
         {abouts.map((about) => (
           <motion.div
             whileInView={{ opacity: 1 }}
@@ -45,4 +44,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default AppWrap(About, 'about');
