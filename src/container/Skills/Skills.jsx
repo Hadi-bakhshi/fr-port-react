@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ReactTooltip from "react-tooltip";
-import { AppWrap } from "../../wrapper";
+import { AppWrap, MotionWrap } from "../../wrapper";
 import { urlFor, client } from "../../client";
 import "./Skills.scss";
 
@@ -73,7 +73,7 @@ const Skills = () => {
                       <p className="p-text">{work.company}</p>
                     </motion.div>
                     <ReactTooltip
-                      id={work.name}                      
+                      id={work.name}
                       effect="solid"
                       arrowColor="#fff"
                       className="skills-tooltip"
@@ -92,4 +92,8 @@ const Skills = () => {
   );
 };
 
-export default AppWrap(Skills, "skills");
+export default AppWrap(
+  MotionWrap(Skills, "app__skills"),
+  "skills",
+  "app__whitebg"
+);
