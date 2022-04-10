@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import * as data from "./data";
 import { AiFillEye, AiFillGithub } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { AppWrap, MotionWrap } from "../../wrapper";
-import { urlFor, client } from "../../client";
+
 import "./Work.scss";
 
 const Work = () => {
@@ -11,16 +12,11 @@ const Work = () => {
   const [filterWork, setFilterWork] = useState([]);
   const [works, setWorks] = useState([]);
 
+  // get local data from data
   useEffect(() => {
-    const query = '*[_type == "works"]';
-
-    client
-      .fetch(query)
-      .then((data) => {
-        setWorks(data);
-        setFilterWork(data);
-      })
-      .catch((err) => console.log(err));
+    setWorks(data.works);
+    setFilterWork(data.works);
+    console.log(data.works);
   }, []);
 
   const handleWorkFilter = (item) => {
@@ -67,8 +63,7 @@ const Work = () => {
         {filterWork.map((work, index) => (
           <div className="app__work-item app__flex" key={index}>
             <div className="app__work-img app__flex">
-              <img src={urlFor(work.imgUrl)} alt={work.name} />
-
+              <img src={work.imgUrl} alt={work.name} />
               <motion.div
                 whileHover={{ opacity: [0, 1] }}
                 transition={{
@@ -118,7 +113,7 @@ const Work = () => {
 };
 
 export default AppWrap(
-  MotionWrap(Work,'app__works'), 
-  'work',
+  MotionWrap(Work, "app__works"),
+  "work",
   "app__primarybg"
-  );
+);
