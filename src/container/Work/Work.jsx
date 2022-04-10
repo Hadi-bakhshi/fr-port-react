@@ -16,7 +16,6 @@ const Work = () => {
   useEffect(() => {
     setWorks(data.works);
     setFilterWork(data.works);
-    console.log(data.works);
   }, []);
 
   const handleWorkFilter = (item) => {

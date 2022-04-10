@@ -32,11 +32,17 @@ import mern from "../assets/mern.jpeg";
 import portfolio from "../assets/portfolio.jpeg";
 import todo from '../assets/todo.jpeg';
 import router from '../assets/router.png';
-import tailwind from '../assets/tailwind.png'
-import bootstrap from '../assets/bootstrap.png'
+import tailwind from '../assets/tailwind.png';
+import bootstrap from '../assets/bootstrap.png';
+import person from '../assets/person.png';
+import freelance1 from '../assets/freelance1.png';
+import freelance2 from '../assets/freelance2.png';
 
 
 export default {
+  person,
+  freelance1,
+  freelance2,
   bootstrap,
   router,
   tailwind,
