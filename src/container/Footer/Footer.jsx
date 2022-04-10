@@ -1,43 +1,35 @@
-import React, { useState } from "react";
-
+import React, { useState, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { images } from "../../constants";
 import { AppWrap, MotionWrap } from "../../wrapper";
-import { client } from "../../client";
 import "./Footer.scss";
 const Footer = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const formRef = useRef();
+
   const [isFormSubmited, setIsFormSubmited] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { name, email, message } = formData;
-  const handleChangeInput = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setLoading(true);
 
-    const contact = {
-      _type: "contact",
-      name: name,
-      email: email,
-      message: message,
-    };
-
-    client
-      .create(contact)
-      .then((res) => {
-        setLoading(false);
-        setIsFormSubmited(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    emailjs
+      .sendForm(
+        "service_5cjdf8u",
+        "template_unexszo",
+        formRef.current,
+        "user_9ir6ozwsVzCX4cJPK5zqv"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          setLoading(false);
+          setIsFormSubmited(true);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
   };
 
   return (
@@ -59,47 +51,50 @@ const Footer = () => {
         </div>
         <div className="app__footer-card">
           <img src={images.cv} alt="mobile" />
-          <a href="https://drive.google.com/uc?export=download&id=14R-VWN_jwKikzvK361U7Le28ve7h_rJ7" className="p-text" download>
+          <a
+            href="https://drive.google.com/uc?export=download&id=14R-VWN_jwKikzvK361U7Le28ve7h_rJ7"
+            className="p-text"
+            download
+          >
             Download My CV
           </a>
         </div>
       </div>
 
       {!isFormSubmited ? (
-        <div className="app__footer-form app__flex">
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          className="app__footer-form app__flex"
+        >
           <div className="app__flex">
             <input
               className="p-text"
-              name="name"
+              name="user_name"
               type="text"
               placeholder="Your Name"
-              value={name}
-              onChange={handleChangeInput}
             />
           </div>
           <div className="app__flex">
             <input
               className="p-text"
-              name="email"
+              name="user_email"
               type="email"
               placeholder="Your Email"
-              value={email}
-              onChange={handleChangeInput}
             />
           </div>
           <div>
             <textarea
               className="p-text"
               placeholder="Your Message"
-              value={message}
+              id=""
               name="message"
-              onChange={handleChangeInput}
             />
           </div>
-          <button type="button" className="p-text" onClick={handleSubmit}>
+          <button type="submit" className="p-text">
             {loading ? "Sending" : "Send Message"}
           </button>
-        </div>
+        </form>
       ) : (
         <div>
           <h3 className="head-text">Thank you for getting in touch.</h3>
